@@ -1,145 +1,58 @@
-# ☕ Best Local Coffee Shops - Listicle
+# WEB103 Project 1 -Listicle
 
-A beautiful web application showcasing the best coffee shops in your city, built with Express.js and styled with Picocss.
+Submitted by: **Anand R**
 
-## 🚀 Features
+About this web app: **App description here**
 
-- **Responsive Design** - Works perfectly on desktop and mobile
-- **Interactive Cards** - Hover effects and smooth animations
-- **Detailed Views** - Click any coffee shop to see full details
-- **Modern Styling** - Clean, professional design with Picocss
-- **404 Handling** - Custom error pages for better UX
+Time spent: **X** hours
 
-## 🛠️ Tech Stack
+## Required Features
 
-- **Backend**: Node.js with Express.js
-- **Frontend**: Vanilla HTML, CSS, JavaScript
-- **Styling**: Picocss framework
-- **Images**: Unsplash (high-quality coffee shop photos)
+The following **required** functionality is completed:
 
-## 📁 Project Structure
+<!-- Make sure to check off completed functionality below -->
+- [x ] **The web app uses only HTML, CSS, and JavaScript without a frontend framework**
+- [x ] **The web app displays a title**
+- [ x] **The web app displays at least five unique list items, each with at least three displayed attributes (such as title, text, and image)**
+- [ x] **The user can click on each item in the list to see a detailed view of it, including all database fields**
+  - [x ] **Each detail view should be a unique endpoint, such as as `localhost:3000/bosses/crystalguardian` and `localhost:3000/mantislords`**
+  - [x ] *Note: When showing this feature in the video walkthrough, please show the unique URL for each detailed view. We will not be able to give points if we cannot see the implementation* 
+- [ x] **The web app serves an appropriate 404 page when no matching route is defined**
+- [ x] **The web app is styled using Picocss**
 
-```
-listicle/
-├── server.js          # Express server with routing
-├── package.json       # Dependencies and scripts
-├── public/
-│   ├── index.html     # Homepage with coffee shop list
-│   ├── detail.html    # Dynamic detail page template
-│   ├── 404.html       # Custom 404 error page
-│   └── styles.css      # Custom styling with Picocss
-└── README.md          # This file
-```
+The following **optional** features are implemented:
 
-## 🎯 Coffee Shop Data
+- [x ] The web app displays items in a unique format, such as cards rather than lists or animated list items
 
-Each coffee shop includes:
-- **Name** - Coffee shop name
-- **Location** - Full address
-- **Rating** - Star rating (4.5-4.9)
-- **Price Range** - $, $$, or $$$
-- **Specialties** - Unique offerings
-- **Hours** - Operating hours
-- **Description** - Detailed description
-- **Image** - High-quality photos
-- **Amenities** - WiFi and outdoor seating info
+The following **additional** features are implemented:
 
-## 🚀 Getting Started
+- [x ] List anything else that you added to improve the site's functionality!
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm
+## Video Walkthrough
 
-### Installation
+**Note: please be sure to 
 
-1. Clone the repository:
-```bash
-git clone https://github.com/anandramz/Listicle.git
-cd Listicle
-```
+Here's a walkthrough of implemented required features:
 
-2. Install dependencies:
-```bash
-npm install
-```
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-3. Start the server:
-```bash
-npm start
-```
+<!-- Replace this with whatever GIF tool you used! -->
+GIF created with ...  Add GIF tool here
+<!-- Recommended tools:
+[Kap](https://getkap.co/) for macOS
+[ScreenToGif](https://www.screentogif.com/) for Windows
+[peek](https://github.com/phw/peek) for Linux. -->
 
-4. Open your browser and visit:
-```
-http://localhost:3000
-```
+## Notes
 
-## 📱 Available Routes
+Describe any challenges encountered while building the app or any additional context you'd like to add.
 
-- `http://localhost:3000/` - Homepage with all coffee shops
-- `http://localhost:3000/coffeeshops/bluebottle` - Blue Bottle Coffee details
-- `http://localhost:3000/coffeeshops/stumptown` - Stumptown Coffee details
-- `http://localhost:3000/coffeeshops/intelligentsia` - Intelligentsia Coffee details
-- `http://localhost:3000/coffeeshops/philz` - Philz Coffee details
-- `http://localhost:3000/coffeeshops/verve` - Verve Coffee details
-- Any other route → Custom 404 page
+## License
 
-## 🎨 Features in Detail
+Copyright [yyyy] [name of copyright owner]
 
-### Homepage
-- Grid layout of coffee shop cards
-- Hover animations and effects
-- Click anywhere on card to view details
-- Responsive design for all screen sizes
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-### Detail Pages
-- Full coffee shop information
-- High-quality images
-- Rating and price information
-- Specialties and amenities
-- Back navigation
+> http://www.apache.org/licenses/LICENSE-2.0
 
-### 404 Page
-- Custom error handling
-- Helpful navigation back to main page
-- Links to popular coffee shops
-
-## 🔧 Development
-
-### Scripts
-- `npm start` - Start the server
-- `npm run dev` - Start the server (alias)
-
-### Adding New Coffee Shops
-To add new coffee shops, edit the `coffeeShops` array in `server.js` and add corresponding routes.
-
-## 📝 Requirements Met
-
-✅ Web server to handle incoming requests  
-✅ Routes and request handlers using Express  
-✅ HTML, CSS, and JavaScript without frontend framework  
-✅ Displays a title  
-✅ At least five unique list items with three displayed attributes  
-✅ Clickable items with detailed views  
-✅ Unique endpoints for each detail view  
-✅ Appropriate 404 page for undefined routes  
-✅ Styled using Picocss  
-
-## 🎯 Stretch Features
-
-- **Card-based layout** instead of plain lists
-- **Hover animations** and smooth transitions
-- **Responsive design** for all devices
-- **Rich data attributes** with ratings and amenities
-- **Interactive elements** with click handlers
-
-## 📄 License
-
-This project is part of a coding bootcamp assignment.
-
-## 👨‍💻 Author
-
-Created as part of Week 1, Project 1 - Listicle Part 1
-
----
-
-*Ready for Unit 2 database integration!* 🚀
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
