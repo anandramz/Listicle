@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Local Coffee Shops</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>☕ Best Local Coffee Shops</h1>
+            <p>Discover the finest coffee experiences in your city</p>
+        </header>
+
+        <section class="coffee-shops">
+            <div class="grid">
+                <article class="coffee-card" data-shop="bluebottle">
+                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400" alt="Blue Bottle Coffee" />
+                    <div class="card-content">
+                        <h3>Blue Bottle Coffee</h3>
+                        <p class="location">📍 123 Main St, Downtown</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">4.8</span>
+                        </div>
+                        <p class="price-range">$$</p>
+                        <p class="description">A minimalist coffee experience with carefully sourced beans and expert brewing techniques.</p>
+                        <div class="specialties">
+                            <span class="tag">Single Origin</span>
+                            <span class="tag">Cold Brew</span>
+                            <span class="tag">Pastries</span>
+                        </div>
+                        <a href="/coffeeshops/bluebottle" class="button">View Details</a>
+                    </div>
+                </article>
+
+                <article class="coffee-card" data-shop="stumptown">
+                    <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400" alt="Stumptown Coffee Roasters" />
+                    <div class="card-content">
+                        <h3>Stumptown Coffee Roasters</h3>
+                        <p class="location">📍 456 Oak Ave, Arts District</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">4.6</span>
+                        </div>
+                        <p class="price-range">$$</p>
+                        <p class="description">Pioneers of the third wave coffee movement, known for their exceptional roasting and brewing.</p>
+                        <div class="specialties">
+                            <span class="tag">Espresso</span>
+                            <span class="tag">Pour Over</span>
+                            <span class="tag">Coffee Beans</span>
+                        </div>
+                        <a href="/coffeeshops/stumptown" class="button">View Details</a>
+                    </div>
+                </article>
+
+                <article class="coffee-card" data-shop="intelligentsia">
+                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400" alt="Intelligentsia Coffee" />
+                    <div class="card-content">
+                        <h3>Intelligentsia Coffee</h3>
+                        <p class="location">📍 789 Pine St, Midtown</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">4.7</span>
+                        </div>
+                        <p class="price-range">$$$</p>
+                        <p class="description">Direct trade coffee with a focus on sustainability and exceptional quality.</p>
+                        <div class="specialties">
+                            <span class="tag">Direct Trade</span>
+                            <span class="tag">Latte Art</span>
+                            <span class="tag">Seasonal Menu</span>
+                        </div>
+                        <a href="/coffeeshops/intelligentsia" class="button">View Details</a>
+                    </div>
+                </article>
+
+                <article class="coffee-card" data-shop="philz">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400" alt="Philz Coffee" />
+                    <div class="card-content">
+                        <h3>Philz Coffee</h3>
+                        <p class="location">📍 321 Elm St, University Area</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">4.5</span>
+                        </div>
+                        <p class="price-range">$</p>
+                        <p class="description">One cup at a time, one person at a time - personalized coffee experience.</p>
+                        <div class="specialties">
+                            <span class="tag">Custom Blends</span>
+                            <span class="tag">Mint Mojito Iced Coffee</span>
+                            <span class="tag">Friendly Service</span>
+                        </div>
+                        <a href="/coffeeshops/philz" class="button">View Details</a>
+                    </div>
+                </article>
+
+                <article class="coffee-card" data-shop="verve">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400" alt="Verve Coffee Roasters" />
+                    <div class="card-content">
+                        <h3>Verve Coffee Roasters</h3>
+                        <p class="location">📍 654 Maple Dr, Westside</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">4.9</span>
+                        </div>
+                        <p class="price-range">$$</p>
+                        <p class="description">Farm-direct coffee with a focus on sustainability and exceptional flavor profiles.</p>
+                        <div class="specialties">
+                            <span class="tag">Farm Direct</span>
+                            <span class="tag">Espresso</span>
+                            <span class="tag">Pastries</span>
+                        </div>
+                        <a href="/coffeeshops/verve" class="button">View Details</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Add click handlers for coffee cards
+        document.querySelectorAll('.coffee-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('a')) {
+                    const shopId = this.dataset.shop;
+                    window.location.href = `/coffeeshops/${shopId}`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
