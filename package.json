@@ -7,6 +7,7 @@
     "start": "node server/server.js",
     "dev": "node server/server.js",
     "init-db": "node server/config/init.js",
+    "reset-db": "node server/config/reset.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

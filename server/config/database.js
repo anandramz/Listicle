@@ -12,7 +12,11 @@ const config = {
     database: process.env.PGDATABASE || 'listicle_db',
     ssl: process.env.NODE_ENV === 'production' ? {
         rejectUnauthorized: false
-    } : false
+    } : false,
+    // Additional connection options for local development
+    connectionTimeoutMillis: 10000,
+    idleTimeoutMillis: 30000,
+    max: 10
 };
 
 export const pool = new pg.Pool(config);

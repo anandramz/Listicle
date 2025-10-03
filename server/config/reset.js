@@ -1,70 +1,65 @@
-import dotenv from 'dotenv';
-import pool from '../database.js';
-import { coffeeShops } from '../data/coffeeShops.js';  // make sure coffeeShops.js exports with "export const coffeeShops = [...]"
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { pool } from './database.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-async function createCoffeeShopsTable() {
-  const createTableQuery = `
-    DROP TABLE IF EXISTS coffee_shops;
-
-    CREATE TABLE IF NOT EXISTS coffee_shops (
-      id VARCHAR(50) PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      location VARCHAR(255) NOT NULL,
-      rating DECIMAL(2,1) NOT NULL,
-      price_range VARCHAR(10) NOT NULL,
-      specialties TEXT[] NOT NULL,
-      hours VARCHAR(100) NOT NULL,
-      description TEXT NOT NULL,
-      image TEXT NOT NULL,
-      wifi BOOLEAN NOT NULL,
-      outdoor_seating BOOLEAN NOT NULL
-    );
-  `;
-
-  await pool.query(createTableQuery);
-  console.log("✅ coffee_shops table created");
+async function resetDatabase() {
+    try {
+        console.log('🔄 Resetting database...');
+        
+        // Test connection first
+        console.log('🔗 Testing database connection...');
+        await pool.query('SELECT NOW()');
+        console.log('✅ Database connection successful');
+        
+        // Drop existing table if it exists
+        await pool.query('DROP TABLE IF EXISTS coffee_shops CASCADE;');
+        console.log('🗑️  Dropped existing coffee_shops table');
+        
+        // Read and execute schema
+        const schemaSQL = readFileSync(join(__dirname, 'schema.sql'), 'utf8');
+        await pool.query(schemaSQL);
+        console.log('✅ Database schema created successfully');
+        
+        // Read and execute seed data
+        const seedSQL = readFileSync(join(__dirname, 'seed.sql'), 'utf8');
+        await pool.query(seedSQL);
+        console.log('✅ Database seeded successfully');
+        
+        console.log('🎉 Database reset complete!');
+        
+    } catch (error) {
+        console.error('❌ Error resetting database:', error);
+        
+        // Provide helpful error messages
+        if (error.code === 'ECONNREFUSED') {
+            console.error('💡 Make sure PostgreSQL is running on your system');
+            console.error('   On macOS: brew services start postgresql');
+            console.error('   On Ubuntu: sudo systemctl start postgresql');
+        } else if (error.code === '28P01') {
+            console.error('💡 Authentication failed - check your database credentials');
+            console.error('   Update your .env file with correct username/password');
+        } else if (error.code === '3D000') {
+            console.error('💡 Database does not exist - create it first:');
+            console.error('   createdb listicle_db');
+        }
+        
+        throw error;
+    } finally {
+        await pool.end();
+        console.log('📊 Database connection closed');
+    }
 }
 
-async function seedCoffeeShops() {
-  for (const shop of coffeeShops) {
-    const insertQuery = `
-      INSERT INTO coffee_shops (
-        id, name, location, rating, price_range, specialties, hours, description, image, wifi, outdoor_seating
-      )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-    `;
-
-    const values = [
-      shop.id,
-      shop.name,
-      shop.location,
-      shop.rating,
-      shop.priceRange,     // JS camelCase -> SQL snake_case
-      shop.specialties,    // array -> TEXT[]
-      shop.hours,
-      shop.description,
-      shop.image,
-      shop.wifi,
-      shop.outdoorSeating  // JS camelCase -> SQL snake_case
-    ];
-
-    await pool.query(insertQuery, values);
-    console.log(`✅ ${shop.name} added successfully`);
-  }
-  console.log("✅ coffee_shops table seeded");
+// Run the reset if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+    resetDatabase().catch(error => {
+        console.error('Failed to reset database:', error);
+        process.exit(1);
+    });
 }
 
-async function reset() {
-  try {
-    await createCoffeeShopsTable();
-    await seedCoffeeShops();
-  } catch (err) {
-    console.error("⚠️ Error resetting database:", err);
-  } finally {
-    pool.end(); // close pool so script exits
-  }
-}
-
-reset();
+export { resetDatabase };
