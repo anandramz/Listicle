@@ -1,10 +1,12 @@
 {
   "name": "listicle",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "init-db": "node server/config/init.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +14,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
   }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="container">
+        <a href="/" class="button secondary back-button">← Back to Coffee Shops</a>
+        
+        <div class="detail-header">
+            <h1 id="shop-name">Coffee Shop Name</h1>
+            <p id="shop-location" class="location">📍 Location</p>
+        </div>
+
+        <img id="shop-image" src="" alt="Coffee Shop" class="detail-image" />
+
+        <div class="detail-info">
+            <div class="info-card">
+                <h4>⭐ Rating & Price</h4>
+                <p><strong>Rating:</strong> <span id="shop-rating"></span>/5.0</p>
+                <p><strong>Price Range:</strong> <span id="shop-price"></span></p>
+                <p><strong>Hours:</strong> <span id="shop-hours"></span></p>
+            </div>
+
+            <div class="info-card">
+                <h4>📍 Location & Amenities</h4>
+                <p><strong>Address:</strong> <span id="shop-address"></span></p>
+                <p><strong>WiFi:</strong> <span id="shop-wifi"></span></p>
+                <p><strong>Outdoor Seating:</strong> <span id="shop-outdoor"></span></p>
+            </div>
+
+            <div class="info-card">
+                <h4>☕ Specialties</h4>
+                <ul id="shop-specialties" class="specialties-list"></ul>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h4>📝 Description</h4>
+            <p id="shop-description"></p>
+        </div>
+    </main>
+
+    <script type="module">
+        import { getCoffeeShopById } from './data/coffeeshops.js';
+
+        // Get shop ID from URL
+        const pathParts = window.location.pathname.split('/');
+        const shopId = pathParts[pathParts.length - 1];
+        
+        // Load coffee shop data from database
+        async function loadCoffeeShop() {
+            try {
+                const shop = await getCoffeeShopById(shopId);
+                
+                if (!shop) {
+                    // Redirect to 404 if shop not found
+                    window.location.href = '/404';
+                    return;
+                }
+                
+                // Populate the page with shop data
+                document.getElementById('shop-name').textContent = shop.name;
+                document.getElementById('shop-location').textContent = `📍 ${shop.location}`;
+                document.getElementById('shop-image').src = shop.image_url;
+                document.getElementById('shop-image').alt = shop.name;
+                document.getElementById('shop-rating').textContent = shop.rating;
+                document.getElementById('shop-price').textContent = shop.price_range;
+                document.getElementById('shop-hours').textContent = shop.hours;
+                document.getElementById('shop-address').textContent = shop.location;
+                document.getElementById('shop-wifi').textContent = shop.wifi ? 'Yes' : 'No';
+                document.getElementById('shop-outdoor').textContent = shop.outdoor_seating ? 'Yes' : 'No';
+                document.getElementById('shop-description').textContent = shop.description;
+                
+                // Populate specialties
+                const specialtiesList = document.getElementById('shop-specialties');
+                shop.specialties.forEach(specialty => {
+                    const li = document.createElement('li');
+                    li.textContent = specialty;
+                    specialtiesList.appendChild(li);
+                });
+                
+                // Update page title
+                document.title = `${shop.name} - Best Local Coffee Shops`;
+                
+            } catch (error) {
+                console.error('Error loading coffee shop:', error);
+                // Redirect to 404 if there's an error
+                window.location.href = '/404';
+            }
+        }
+
+        // Initialize the page
+        loadCoffeeShop();
+    </script>
+</body>
+</html>

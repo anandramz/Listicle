@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Local Coffee Shops</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>☕ Best Local Coffee Shops</h1>
+            <p>Discover the finest coffee experiences in your city</p>
+        </header>
+
+        <!-- Search functionality (stretch feature) -->
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search coffee shops..." class="search-input">
+                <button id="searchButton" class="button">🔍 Search</button>
+                <button id="clearSearch" class="button secondary">Clear</button>
+            </div>
+        </section>
+
+        <section class="coffee-shops">
+            <div id="loadingMessage" class="loading-message">
+                <p>☕ Loading coffee shops...</p>
+            </div>
+            <div id="coffeeGrid" class="grid" style="display: none;">
+                <!-- Coffee shop cards will be dynamically loaded here -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <p>No coffee shops found matching your search.</p>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { getAllCoffeeShops, searchCoffeeShops } from './data/coffeeshops.js';
+
+        let allCoffeeShops = [];
+        let currentShops = [];
+
+        // Load coffee shops on page load
+        async function loadCoffeeShops() {
+            try {
+                const loadingMessage = document.getElementById('loadingMessage');
+                const coffeeGrid = document.getElementById('coffeeGrid');
+                
+                allCoffeeShops = await getAllCoffeeShops();
+                currentShops = [...allCoffeeShops];
+                
+                loadingMessage.style.display = 'none';
+                renderCoffeeShops();
+                coffeeGrid.style.display = 'grid';
+            } catch (error) {
+                console.error('Error loading coffee shops:', error);
+                document.getElementById('loadingMessage').innerHTML = '<p>❌ Error loading coffee shops. Please try again later.</p>';
+            }
+        }
+
+        // Render coffee shop cards
+        function renderCoffeeShops() {
+            const coffeeGrid = document.getElementById('coffeeGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (currentShops.length === 0) {
+                coffeeGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            coffeeGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            coffeeGrid.innerHTML = currentShops.map(shop => `
+                <article class="coffee-card" data-shop="${shop.shop_id}">
+                    <img src="${shop.image_url}" alt="${shop.name}" />
+                    <div class="card-content">
+                        <h3>${shop.name}</h3>
+                        <p class="location">📍 ${shop.location}</p>
+                        <div class="rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-value">${shop.rating}</span>
+                        </div>
+                        <p class="price-range">${shop.price_range}</p>
+                        <p class="description">${shop.description}</p>
+                        <div class="specialties">
+                            ${shop.specialties.map(specialty => `<span class="tag">${specialty}</span>`).join('')}
+                        </div>
+                        <a href="/coffeeshops/${shop.shop_id}" class="button">View Details</a>
+                    </div>
+                </article>
+            `).join('');
+
+            // Add click handlers for coffee cards
+            document.querySelectorAll('.coffee-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('a')) {
+                        const shopId = this.dataset.shop;
+                        window.location.href = `/coffeeshops/${shopId}`;
+                    }
+                });
+            });
+        }
+
+        // Search functionality
+        async function performSearch(query) {
+            if (!query.trim()) {
+                currentShops = [...allCoffeeShops];
+                renderCoffeeShops();
+                return;
+            }
+
+            try {
+                currentShops = await searchCoffeeShops(query);
+                renderCoffeeShops();
+            } catch (error) {
+                console.error('Error searching coffee shops:', error);
+                currentShops = [];
+                renderCoffeeShops();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value;
+            performSearch(query);
+        });
+
+        document.getElementById('clearSearch').addEventListener('click', () => {
+            document.getElementById('searchInput').value = '';
+            currentShops = [...allCoffeeShops];
+            renderCoffeeShops();
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = document.getElementById('searchInput').value;
+                performSearch(query);
+            }
+        });
+
+        // Initialize the page
+        loadCoffeeShops();
+    </script>
+</body>
+</html>
